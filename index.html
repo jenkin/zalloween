@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Trick or $ZEC? Zalloween!" />
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <title>Zalloween</title>
+  <meta property="og:url" content="https://z.ombie.cash/zalloween/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Zalloween">
+  <meta property="og:description" content="Trick or $ZEC? Post something on X about Zcash using a visual metaphor from horror imagery, use the hashtag #Zalloween and I'll send you some zats..." />
+  <meta property="og:image" content="https://z.ombie.cash/zalloween/images/preview.jpeg">
+  <style>
+    @font-face {
+      font-family: "Butcherman";
+      src: url("fonts/butcherman.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Amaranth";
+      src: url("fonts/amaranth-regular.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Amaranth";
+      src: url("fonts/amaranth-bold.ttf") format("truetype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #271219;
+      --gold: #f3b724;
+      --text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Amaranth", system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .wrap {
+      width: min(1100px, 92vw);
+      margin-inline: auto;
+    }
+
+    /* Header */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 2px solid color-mix(in srgb, var(--gold) 35%, transparent);
+      padding-block: 1rem;
+      text-align: center;
+    }
+
+    .site-header h1 {
+      margin: 0;
+      font-family: "Butcherman", "Amaranth", cursive;
+      font-weight: 400;
+      font-size: clamp(2.75rem, 6vw, 4.25rem);
+      line-height: 1;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      margin: 0.5rem 0 0;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .subtitle a:hover {
+      text-decoration: underline;
+    }
+
+    /* Section rhythm: equal vertical gaps between all sections */
+
+    main > *:first-child {
+      margin-top: 2rem;
+    }
+
+    main > * + * {
+      margin-top: 2rem;
+    }
+
+    main > *:last-child {
+      margin-bottom: 2rem;
+    }
+
+    /* Edition bands */
+
+    .band {
+      background: var(--gold);
+      color: var(--bg);
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding-block: 0.55rem;
+    }
+
+    /* Intro box */
+
+    .intro-box {
+      background: var(--gold);
+      color: var(--bg);
+      padding: 1.5rem 1.75rem;
+      border-radius: 6px;
+    }
+
+    .intro-box a {
+      color: var(--bg);;
+      text-decoration: underline;
+    }
+
+    .intro-box p {
+      margin: 0;
+    }
+
+    .intro-box p + p {
+      margin-top: 0.75rem;
+    }
+
+    /* Masonry grid (CSS columns) */
+
+    .masonry {
+      columns: 6 220px;
+      column-gap: 0;
+    }
+
+    .masonry figure {
+      position: relative;
+      margin: 0;
+      break-inside: avoid;
+      overflow: hidden;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .masonry img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .masonry figure::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+      opacity: 0.75;
+      transition: opacity 0.25s ease;
+    }
+
+    .masonry figure:hover::after,
+    .masonry figure:focus-visible::after {
+      opacity: 0;
+    }
+
+    .masonry figure:focus-visible {
+      box-shadow: 0 0 0 3px var(--gold);
+    }
+
+    /* Modal */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: rgba(13, 5, 9, 0.92);
+      cursor: zoom-out;
+    }
+
+    .modal a {
+      display: block;
+      line-height: 0;
+    }
+
+    .modal img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100vh;
+      cursor: pointer;
+    }
+
+    .modal-close {
+      position: fixed;
+      top: 14px;
+      right: 16px;
+      z-index: 101;
+      width: 44px;
+      height: 44px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      background: var(--bg);
+      color: var(--gold);
+      font-family: inherit;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    /* Footer */
+
+    .site-footer {
+      text-align: center;
+      border-top: 2px solid color-mix(in srgb, var(--gold) 35%, transparent);
+      padding-block: 1rem;
+      font-size: 0.65rem;
+      color: var(--gold);
+    }
+
+    .site-footer a {
+      color: var(--gold);;
+      text-decoration: underline;
+    }
+
+    .site-footer p {
+      margin: 0.25rem 0;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>Zalloween</h1>
+      <p class="subtitle">
+        <a href="https://x.com/hashtag/Zalloween" target="_blank" rel="noopener noreferrer" title="#Zalloween on X">X</a>
+        <span aria-hidden="true"> • </span>
+        <a href="https://zcash.me/zalloween" target="_blank" rel="noopener noreferrer" title="Zalloween on Zcash.me">Zcash.me</a>
+        <br/>
+        <a href="https://www.zcashnames.com/explorer?tab=registered&name=zalloween&searchMode=exact" target="_blank" rel="noopener noreferrer" title="Donate using Zcash Names">Donate to zalloween.zcash</a>
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="band">2026 "Shields up!" Edition</div>
+
+    <section class="wrap">
+      <div class="intro-box">
+        <p>
+          Trick or $ZEC?
+          Post something on <a href="https://x.com" target="_blank" rel="noopener noreferrer">X</a> about <a href="https://z.cash" target="_blank" rel="noopener noreferrer">Zcash</a> using a visual metaphor from horror imagery, add your <a href="https://www.zcashnames.com/" target="_blank" rel="noopener noreferrer">ZcashNames</a> name or <a href="https://zcash.me" target="_blank" rel="noopener noreferrer">ZcashMe</a> handle, use the hashtag #Zalloween and I'll send you some zats...
+          Have fun and remember: Zcash is a transformative technology, don't follow the horde, shields up and be the change!
+        </p>
+      </div>
+    </section>
+
+    <div class="band">2025 "Onward!" Edition</div>
+
+    <div class="masonry" id="masonry">
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984519253005918265" data-src="images/2025/1984519253005918265.jpeg" data-alt="Zalloween tweet 1984519253005918265" data-href="https://x.com/jenkin27/status/1984519253005918265">
+          <img src="images/2025/1984519253005918265.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984306640292888977" data-src="images/2025/1984306640292888977.jpeg" data-alt="Zalloween tweet 1984306640292888977" data-href="https://x.com/jenkin27/status/1984306640292888977">
+          <img src="images/2025/1984306640292888977.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984303241027600809" data-src="images/2025/1984303241027600809.jpeg" data-alt="Zalloween tweet 1984303241027600809" data-href="https://x.com/jenkin27/status/1984303241027600809">
+          <img src="images/2025/1984303241027600809.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984301969226481941" data-src="images/2025/1984301969226481941.jpeg" data-alt="Zalloween tweet 1984301969226481941" data-href="https://x.com/jenkin27/status/1984301969226481941">
+          <img src="images/2025/1984301969226481941.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984300194716913701" data-src="images/2025/1984300194716913701.jpeg" data-alt="Zalloween tweet 1984300194716913701" data-href="https://x.com/jenkin27/status/1984300194716913701">
+          <img src="images/2025/1984300194716913701.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984298727511900265" data-src="images/2025/1984298727511900265.jpeg" data-alt="Zalloween tweet 1984298727511900265" data-href="https://x.com/jenkin27/status/1984298727511900265">
+          <img src="images/2025/1984298727511900265.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984296528303833503" data-src="images/2025/1984296528303833503.jpeg" data-alt="Zalloween tweet 1984296528303833503" data-href="https://x.com/jenkin27/status/1984296528303833503">
+          <img src="images/2025/1984296528303833503.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984295864987525563" data-src="images/2025/1984295864987525563.jpeg" data-alt="Zalloween tweet 1984295864987525563" data-href="https://x.com/jenkin27/status/1984295864987525563">
+          <img src="images/2025/1984295864987525563.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984295304490098949" data-src="images/2025/1984295304490098949.jpeg" data-alt="Zalloween tweet 1984295304490098949" data-href="https://x.com/jenkin27/status/1984295304490098949">
+          <img src="images/2025/1984295304490098949.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984293698319069324" data-src="images/2025/1984293698319069324.jpeg" data-alt="Zalloween tweet 1984293698319069324" data-href="https://x.com/jenkin27/status/1984293698319069324">
+          <img src="images/2025/1984293698319069324.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984286784856150172" data-src="images/2025/1984286784856150172.jpeg" data-alt="Zalloween tweet 1984286784856150172" data-href="https://x.com/jenkin27/status/1984286784856150172">
+          <img src="images/2025/1984286784856150172.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984238129256288390" data-src="images/2025/1984238129256288390.jpeg" data-alt="Zalloween tweet 1984238129256288390" data-href="https://x.com/jenkin27/status/1984238129256288390">
+          <img src="images/2025/1984238129256288390.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984231182796779743" data-src="images/2025/1984231182796779743.jpeg" data-alt="Zalloween tweet 1984231182796779743" data-href="https://x.com/jenkin27/status/1984231182796779743">
+          <img src="images/2025/1984231182796779743.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984229858759864740" data-src="images/2025/1984229858759864740.jpeg" data-alt="Zalloween tweet 1984229858759864740" data-href="https://x.com/jenkin27/status/1984229858759864740">
+          <img src="images/2025/1984229858759864740.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984225132198670798" data-src="images/2025/1984225132198670798.jpeg" data-alt="Zalloween tweet 1984225132198670798" data-href="https://x.com/jenkin27/status/1984225132198670798">
+          <img src="images/2025/1984225132198670798.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984223305197564261" data-src="images/2025/1984223305197564261.jpeg" data-alt="Zalloween tweet 1984223305197564261" data-href="https://x.com/jenkin27/status/1984223305197564261">
+          <img src="images/2025/1984223305197564261.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984219794862911643" data-src="images/2025/1984219794862911643.jpeg" data-alt="Zalloween tweet 1984219794862911643" data-href="https://x.com/jenkin27/status/1984219794862911643">
+          <img src="images/2025/1984219794862911643.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984215235478376686" data-src="images/2025/1984215235478376686.jpeg" data-alt="Zalloween tweet 1984215235478376686" data-href="https://x.com/jenkin27/status/1984215235478376686">
+          <img src="images/2025/1984215235478376686.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984212656241455337" data-src="images/2025/1984212656241455337.jpeg" data-alt="Zalloween tweet 1984212656241455337" data-href="https://x.com/jenkin27/status/1984212656241455337">
+          <img src="images/2025/1984212656241455337.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984209054231834756" data-src="images/2025/1984209054231834756.jpeg" data-alt="Zalloween tweet 1984209054231834756" data-href="https://x.com/jenkin27/status/1984209054231834756">
+          <img src="images/2025/1984209054231834756.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984206346699616310" data-src="images/2025/1984206346699616310.jpeg" data-alt="Zalloween tweet 1984206346699616310" data-href="https://x.com/jenkin27/status/1984206346699616310">
+          <img src="images/2025/1984206346699616310.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984206056344674731" data-src="images/2025/1984206056344674731.jpeg" data-alt="Zalloween tweet 1984206056344674731" data-href="https://x.com/jenkin27/status/1984206056344674731">
+          <img src="images/2025/1984206056344674731.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984204245638459401" data-src="images/2025/1984204245638459401.jpeg" data-alt="Zalloween tweet 1984204245638459401" data-href="https://x.com/jenkin27/status/1984204245638459401">
+          <img src="images/2025/1984204245638459401.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984197194979979639" data-src="images/2025/1984197194979979639.jpeg" data-alt="Zalloween tweet 1984197194979979639" data-href="https://x.com/jenkin27/status/1984197194979979639">
+          <img src="images/2025/1984197194979979639.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984192790893633804" data-src="images/2025/1984192790893633804.jpeg" data-alt="Zalloween tweet 1984192790893633804" data-href="https://x.com/jenkin27/status/1984192790893633804">
+          <img src="images/2025/1984192790893633804.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984187352231940368" data-src="images/2025/1984187352231940368.jpeg" data-alt="Zalloween tweet 1984187352231940368" data-href="https://x.com/jenkin27/status/1984187352231940368">
+          <img src="images/2025/1984187352231940368.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984154997085639009" data-src="images/2025/1984154997085639009-2.jpeg" data-alt="Zalloween tweet 1984154997085639009" data-href="https://x.com/jenkin27/status/1984154997085639009">
+          <img src="images/2025/1984154997085639009-2.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984154997085639009" data-src="images/2025/1984154997085639009-1.jpeg" data-alt="Zalloween tweet 1984154997085639009" data-href="https://x.com/jenkin27/status/1984154997085639009">
+          <img src="images/2025/1984154997085639009-1.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984087245377433846" data-src="images/2025/1984087245377433846.jpeg" data-alt="Zalloween tweet 1984087245377433846" data-href="https://x.com/jenkin27/status/1984087245377433846">
+          <img src="images/2025/1984087245377433846.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984069643900993915" data-src="images/2025/1984069643900993915.jpeg" data-alt="Zalloween tweet 1984069643900993915" data-href="https://x.com/jenkin27/status/1984069643900993915">
+          <img src="images/2025/1984069643900993915.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984059442405773627" data-src="images/2025/1984059442405773627.jpeg" data-alt="Zalloween tweet 1984059442405773627" data-href="https://x.com/jenkin27/status/1984059442405773627">
+          <img src="images/2025/1984059442405773627.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984057452648919463" data-src="images/2025/1984057452648919463.jpeg" data-alt="Zalloween tweet 1984057452648919463" data-href="https://x.com/jenkin27/status/1984057452648919463">
+          <img src="images/2025/1984057452648919463.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984051180956479775" data-src="images/2025/1984051180956479775.jpeg" data-alt="Zalloween tweet 1984051180956479775" data-href="https://x.com/jenkin27/status/1984051180956479775">
+          <img src="images/2025/1984051180956479775.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1984030424918880268" data-src="images/2025/1984030424918880268.jpeg" data-alt="Zalloween tweet 1984030424918880268" data-href="https://x.com/jenkin27/status/1984030424918880268">
+          <img src="images/2025/1984030424918880268.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1983995673470235038" data-src="images/2025/1983995673470235038.jpeg" data-alt="Zalloween tweet 1983995673470235038" data-href="https://x.com/jenkin27/status/1983995673470235038">
+          <img src="images/2025/1983995673470235038.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1983582829196849396" data-src="images/2025/1983582829196849396.jpeg" data-alt="Zalloween tweet 1983582829196849396" data-href="https://x.com/jenkin27/status/1983582829196849396">
+          <img src="images/2025/1983582829196849396.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1983574771146043518" data-src="images/2025/1983574771146043518.jpeg" data-alt="Zalloween tweet 1983574771146043518" data-href="https://x.com/jenkin27/status/1983574771146043518">
+          <img src="images/2025/1983574771146043518.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1983274792607461810" data-src="images/2025/1983274792607461810.jpeg" data-alt="Zalloween tweet 1983274792607461810" data-href="https://x.com/jenkin27/status/1983274792607461810">
+          <img src="images/2025/1983274792607461810.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1983106685620367619" data-src="images/2025/1983106685620367619.jpeg" data-alt="Zalloween tweet 1983106685620367619" data-href="https://x.com/jenkin27/status/1983106685620367619">
+          <img src="images/2025/1983106685620367619.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1982891294247834100" data-src="images/2025/1982891294247834100.jpeg" data-alt="Zalloween tweet 1982891294247834100" data-href="https://x.com/jenkin27/status/1982891294247834100">
+          <img src="images/2025/1982891294247834100.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1982808004253614341" data-src="images/2025/1982808004253614341.jpeg" data-alt="Zalloween tweet 1982808004253614341" data-href="https://x.com/jenkin27/status/1982808004253614341">
+          <img src="images/2025/1982808004253614341.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+        <figure class="tile" tabindex="0" role="button" aria-label="Open tweet 1982736151351079071" data-src="images/2025/1982736151351079071.jpeg" data-alt="Zalloween tweet 1982736151351079071" data-href="https://x.com/jenkin27/status/1982736151351079071">
+          <img src="images/2025/1982736151351079071.jpeg" alt="" loading="lazy" decoding="async">
+        </figure>
+    </div>
+
+    <section class="wrap">
+      <div class="intro-box">
+        <p>
+          #Zalloween (2025 edition) is over, what a wonderful and spooky day! A total of 46 unique contributions and 0.5 $ZEC distributed.
+          Thanks fam, we'll do it again next year with $ZEC above $1k.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Author: jenkin. Assisted-by: opencode/nearai/Qwen-Qwen3.8-27B.</p>
+      <p>Fan project, not affiliated with the <a href="https://zfnd.org" target="_blank" rel="noopener noreferrer">Zcash Foundation</a>. Learn more about Zcash at <a href="https://z.cash" target="_blank" rel="noopener noreferrer">z.cash</a> and <a href="https://zechub.wiki" target="_blank" rel="noopener noreferrer">zechub.wiki</a>.</p>
+      <p>All original content on the site may be reused, provided that attribution is given (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC-BY</a>). The copyright for each image belongs to its respective author. The site's source code is available on <a href="https://github.com/jenkin/zalloween" target="_blank" rel="noopener noreferrer">GitHub</a> (MIT license).</p>
+      <p>No financial advice!</p>
+    </div>
+  </footer>
+
+  <div class="modal" id="modal" hidden>
+    <button class="modal-close" id="modal-close" type="button" aria-label="Close">&#215;</button>
+    <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer">
+      <img id="modal-img" alt="">
+    </a>
+  </div>
+
+  <script>
+    const masonry = document.getElementById("masonry");
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+    const modalLink = document.getElementById("modal-link");
+    const modalClose = document.getElementById("modal-close");
+
+    function openModal(figure) {
+      modalImg.src = figure.dataset.src;
+      modalImg.alt = figure.dataset.alt;
+      modalLink.href = figure.dataset.href;
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+      modalClose.focus();
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.body.style.overflow = "";
+    }
+
+    masonry.addEventListener("click", (event) => {
+      const figure = event.target.closest("figure");
+      if (figure) openModal(figure);
+    });
+
+    masonry.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      const figure = event.target.closest("figure");
+      if (figure) {
+        event.preventDefault();
+        openModal(figure);
+      }
+    });
+
+    modalClose.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !modal.hidden) closeModal();
+    });
+  </script>
+</body>
+</html>
